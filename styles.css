@@ -4,6 +4,13 @@
     box-sizing: border-box;
 }
 
+html, body {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
 :root {
     --pink-light: #fff0f3;
     --pink: #ff6b9d;

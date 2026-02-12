@@ -57,24 +57,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 hasEvaded = true;
             }
             
-            const containerRect = buttonContainer.getBoundingClientRect();
             const btnRect = noBtn.getBoundingClientRect();
             
-            // Calculate random new position within reasonable bounds
-            const maxX = window.innerWidth - btnRect.width - 50;
-            const maxY = window.innerHeight - btnRect.height - 50;
+            // Calculate safe bounds with padding from edges
+            const padding = 20;
+            const maxX = window.innerWidth - btnRect.width - padding;
+            const maxY = window.innerHeight - btnRect.height - padding;
             
-            let newX = Math.random() * (maxX - 50) + 25;
-            let newY = Math.random() * (maxY - 50) + 25;
+            let newX = Math.random() * (maxX - padding) + padding;
+            let newY = Math.random() * (maxY - padding) + padding;
             
             // Make sure it actually moves away from mouse
             const mouseX = e.clientX;
             const mouseY = e.clientY;
             
             if (Math.abs(newX - mouseX) < 150 && Math.abs(newY - mouseY) < 150) {
-                newX = mouseX > window.innerWidth / 2 ? 50 : window.innerWidth - 200;
-                newY = mouseY > window.innerHeight / 2 ? 50 : window.innerHeight - 150;
+                newX = mouseX > window.innerWidth / 2 ? padding : maxX;
+                newY = mouseY > window.innerHeight / 2 ? padding : maxY;
             }
+            
+            // Clamp to safe bounds
+            newX = Math.max(padding, Math.min(newX, maxX));
+            newY = Math.max(padding, Math.min(newY, maxY));
             
             noBtn.style.left = newX + 'px';
             noBtn.style.top = newY + 'px';
