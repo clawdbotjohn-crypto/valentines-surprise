@@ -39,23 +39,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // No button evasion
     function setupNoButtonEvasion() {
-        const buttonContainer = noBtn.parentElement;
         let isEvading = false;
-        let hasEvaded = false;
+        
+        // Pre-position the No button absolutely from the start to prevent any shift
+        const initNoButton = () => {
+            const rect = noBtn.getBoundingClientRect();
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = rect.left + 'px';
+            noBtn.style.top = rect.top + 'px';
+            noBtn.style.margin = '0';
+        };
+        
+        // Initialize after a brief delay to ensure layout is complete
+        setTimeout(initNoButton, 100);
         
         noBtn.addEventListener('mouseenter', (e) => {
             if (isEvading) return;
             isEvading = true;
-            
-            // Switch to absolute positioning on first hover
-            if (!hasEvaded) {
-                const rect = noBtn.getBoundingClientRect();
-                const containerRect = buttonContainer.getBoundingClientRect();
-                noBtn.style.position = 'absolute';
-                noBtn.style.left = (rect.left - containerRect.left) + 'px';
-                noBtn.style.top = (rect.top - containerRect.top) + 'px';
-                hasEvaded = true;
-            }
             
             const btnRect = noBtn.getBoundingClientRect();
             
@@ -82,7 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
             
             noBtn.style.left = newX + 'px';
             noBtn.style.top = newY + 'px';
-            noBtn.style.transform = 'none';
             
             setTimeout(() => {
                 isEvading = false;
@@ -120,12 +119,24 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!page1.classList.contains('hidden')) return; // Already on page 1
         
         page2.classList.add('hidden');
+        
+        // Force reset Yes button - add reset class to override any stuck hover
+        yesBtn.classList.add('reset');
+        
         setTimeout(() => {
             page1.classList.remove('hidden');
-            // Reset the No button position
-            noBtn.style.position = '';
-            noBtn.style.left = '';
-            noBtn.style.top = '';
+            
+            // Remove reset class after transition
+            setTimeout(() => {
+                yesBtn.classList.remove('reset');
+            }, 50);
+            
+            // Reset the No button position to roughly center-right of button area
+            const buttonContainer = document.querySelector('.button-container');
+            const containerRect = buttonContainer.getBoundingClientRect();
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = (containerRect.left + containerRect.width / 2 + 30) + 'px';
+            noBtn.style.top = (containerRect.top + containerRect.height / 2 - 25) + 'px';
         }, 300);
     });
 

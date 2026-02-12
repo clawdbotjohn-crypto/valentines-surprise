@@ -158,6 +158,7 @@ body {
     position: relative;
     overflow: hidden;
     z-index: 2;
+    transform: scale(1);
 }
 
 .btn-yes::before {
@@ -171,11 +172,17 @@ body {
     transition: left 0.5s;
 }
 
-.btn-yes:hover {
+.btn-yes:hover,
+.btn-yes.growing {
     transform: scale(2);
     box-shadow: 
         0 8px 30px rgba(255, 71, 87, 0.4),
         0 0 40px rgba(255, 107, 157, 0.5);
+}
+
+.btn-yes.reset {
+    transform: scale(1) !important;
+    transition: none !important;
 }
 
 .btn-yes:hover::before {
