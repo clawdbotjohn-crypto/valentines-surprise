@@ -350,3 +350,40 @@ body {
     user-select: none;
     -webkit-user-select: none;
 }
+
+/* Click burst animations */
+.click-burst {
+    position: fixed !important;
+    pointer-events: none;
+    z-index: 1000;
+    animation: burst-out 0.8s ease-out forwards !important;
+}
+
+.click-burst-confetti {
+    position: fixed !important;
+    pointer-events: none;
+    z-index: 1000;
+    animation: burst-confetti 1s ease-out forwards !important;
+}
+
+@keyframes burst-out {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(var(--burst-x), var(--burst-y)) scale(0.5);
+    }
+}
+
+@keyframes burst-confetti {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(var(--burst-x), calc(var(--burst-y) + 150px)) scale(0.3) rotate(360deg);
+    }
+}

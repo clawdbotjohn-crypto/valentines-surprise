@@ -103,12 +103,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Yes button click - go to celebration
     yesBtn.addEventListener('click', () => {
+        // Push state so back button works
+        history.pushState({ page: 'celebration' }, '', '#celebration');
+        
         page1.classList.add('hidden');
         
         setTimeout(() => {
             page2.classList.remove('hidden');
             createConfetti();
             createCelebrationHearts();
+        }, 300);
+    });
+    
+    // Handle back button (Android)
+    window.addEventListener('popstate', (e) => {
+        if (!page1.classList.contains('hidden')) return; // Already on page 1
+        
+        page2.classList.add('hidden');
+        setTimeout(() => {
+            page1.classList.remove('hidden');
+            // Reset the No button position
+            noBtn.style.position = '';
+            noBtn.style.left = '';
+            noBtn.style.top = '';
         }, 300);
     });
 
@@ -152,6 +169,53 @@ document.addEventListener('DOMContentLoaded', () => {
             }, i * 100);
         }
     }
+    
+    // Click anywhere on celebration page for more effects
+    function setupCelebrationClicks() {
+        page2.addEventListener('click', (e) => {
+            // Don't trigger if clicking a link or button
+            if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON') return;
+            
+            const x = e.clientX;
+            const y = e.clientY;
+            
+            // Burst of hearts and confetti from click point
+            const hearts = ['💕', '💖', '💗', '💓', '💝', '❤️'];
+            const colors = ['#ff6b9d', '#ff4757', '#ffd6e0', '#fff', '#ff9ff3', '#feca57'];
+            
+            // Create hearts burst
+            for (let i = 0; i < 8; i++) {
+                const heart = document.createElement('span');
+                heart.className = 'heart click-burst';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = x + 'px';
+                heart.style.top = y + 'px';
+                heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                heart.style.setProperty('--burst-x', (Math.random() - 0.5) * 200 + 'px');
+                heart.style.setProperty('--burst-y', (Math.random() - 0.5) * 200 + 'px');
+                document.body.appendChild(heart);
+                
+                setTimeout(() => heart.remove(), 1000);
+            }
+            
+            // Create confetti burst
+            for (let i = 0; i < 15; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti-piece click-burst-confetti';
+                confetti.style.left = x + 'px';
+                confetti.style.top = y + 'px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.width = (Math.random() * 8 + 4) + 'px';
+                confetti.style.height = (Math.random() * 8 + 4) + 'px';
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+                confetti.style.setProperty('--burst-x', (Math.random() - 0.5) * 300 + 'px');
+                confetti.style.setProperty('--burst-y', (Math.random() * -200 - 50) + 'px');
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => confetti.remove(), 1200);
+            }
+        });
+    }
 
     // Add sparkles around the question
     function addSparkles() {
@@ -179,4 +243,5 @@ document.addEventListener('DOMContentLoaded', () => {
     createFloatingHearts();
     setupNoButtonEvasion();
     addSparkles();
+    setupCelebrationClicks();
 });
