@@ -41,21 +41,18 @@ document.addEventListener('DOMContentLoaded', () => {
     function setupNoButtonEvasion() {
         let isEvading = false;
         
-        // Pre-position the No button absolutely from the start to prevent any shift
-        const initNoButton = () => {
-            const rect = noBtn.getBoundingClientRect();
-            noBtn.style.position = 'fixed';
-            noBtn.style.left = rect.left + 'px';
-            noBtn.style.top = rect.top + 'px';
-            noBtn.style.margin = '0';
-        };
-        
-        // Initialize after a brief delay to ensure layout is complete
-        setTimeout(initNoButton, 100);
-        
         noBtn.addEventListener('mouseenter', (e) => {
             if (isEvading) return;
             isEvading = true;
+            
+            // On first hover, switch to fixed positioning
+            if (noBtn.style.position !== 'fixed') {
+                const rect = noBtn.getBoundingClientRect();
+                noBtn.style.position = 'fixed';
+                noBtn.style.left = rect.left + 'px';
+                noBtn.style.top = rect.top + 'px';
+                noBtn.style.margin = '0';
+            }
             
             const btnRect = noBtn.getBoundingClientRect();
             
@@ -131,12 +128,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 yesBtn.classList.remove('reset');
             }, 50);
             
-            // Reset the No button position to roughly center-right of button area
-            const buttonContainer = document.querySelector('.button-container');
-            const containerRect = buttonContainer.getBoundingClientRect();
-            noBtn.style.position = 'fixed';
-            noBtn.style.left = (containerRect.left + containerRect.width / 2 + 30) + 'px';
-            noBtn.style.top = (containerRect.top + containerRect.height / 2 - 25) + 'px';
+            // Reset the No button to normal flow (not fixed)
+            noBtn.style.position = '';
+            noBtn.style.left = '';
+            noBtn.style.top = '';
+            noBtn.style.margin = '';
         }, 300);
     });
 
