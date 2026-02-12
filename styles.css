@@ -124,12 +124,13 @@ body {
 /* Buttons */
 .button-container {
     display: flex;
-    gap: 2rem;
+    gap: 3rem;
     justify-content: center;
     flex-wrap: wrap;
-    min-height: 100px;
+    min-height: 120px;
     align-items: center;
     position: relative;
+    padding: 1rem 2rem;
 }
 
 .btn {
@@ -176,7 +177,7 @@ body {
 .btn-no {
     background: linear-gradient(135deg, #ddd 0%, #bbb 100%);
     color: #666;
-    position: absolute;
+    position: relative;
     transition: all 0.15s ease-out;
 }
 

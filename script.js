@@ -41,28 +41,44 @@ document.addEventListener('DOMContentLoaded', () => {
     function setupNoButtonEvasion() {
         const buttonContainer = noBtn.parentElement;
         let isEvading = false;
+        let hasEvaded = false;
         
         noBtn.addEventListener('mouseenter', (e) => {
             if (isEvading) return;
             isEvading = true;
             
+            // Switch to absolute positioning on first hover
+            if (!hasEvaded) {
+                const rect = noBtn.getBoundingClientRect();
+                const containerRect = buttonContainer.getBoundingClientRect();
+                noBtn.style.position = 'absolute';
+                noBtn.style.left = (rect.left - containerRect.left) + 'px';
+                noBtn.style.top = (rect.top - containerRect.top) + 'px';
+                hasEvaded = true;
+            }
+            
             const containerRect = buttonContainer.getBoundingClientRect();
             const btnRect = noBtn.getBoundingClientRect();
             
             // Calculate random new position within reasonable bounds
-            const maxX = containerRect.width - btnRect.width - 20;
-            const maxY = 150; // Allow some vertical movement
+            const maxX = window.innerWidth - btnRect.width - 50;
+            const maxY = window.innerHeight - btnRect.height - 50;
             
-            let newX = Math.random() * maxX - maxX/2;
-            let newY = (Math.random() - 0.5) * maxY;
+            let newX = Math.random() * (maxX - 50) + 25;
+            let newY = Math.random() * (maxY - 50) + 25;
             
             // Make sure it actually moves away from mouse
-            const mouseX = e.clientX - containerRect.left - containerRect.width/2;
-            if (Math.abs(newX - mouseX) < 100) {
-                newX = mouseX > 0 ? -150 : 150;
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+            
+            if (Math.abs(newX - mouseX) < 150 && Math.abs(newY - mouseY) < 150) {
+                newX = mouseX > window.innerWidth / 2 ? 50 : window.innerWidth - 200;
+                newY = mouseY > window.innerHeight / 2 ? 50 : window.innerHeight - 150;
             }
             
-            noBtn.style.transform = `translate(${newX}px, ${newY}px)`;
+            noBtn.style.left = newX + 'px';
+            noBtn.style.top = newY + 'px';
+            noBtn.style.transform = 'none';
             
             setTimeout(() => {
                 isEvading = false;
