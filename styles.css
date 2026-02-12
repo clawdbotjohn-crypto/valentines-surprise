@@ -1,0 +1,342 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --pink-light: #fff0f3;
+    --pink: #ff6b9d;
+    --pink-dark: #e84a7f;
+    --red: #ff4757;
+    --red-dark: #c0392b;
+    --white: #ffffff;
+}
+
+body {
+    font-family: 'Quicksand', sans-serif;
+    min-height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--pink-light) 0%, #ffd6e0 50%, #ffb3c6 100%);
+}
+
+/* Floating Hearts Background */
+.hearts-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.heart {
+    position: absolute;
+    font-size: 20px;
+    animation: float-up linear infinite;
+    opacity: 0.7;
+    filter: drop-shadow(0 0 3px rgba(255, 107, 157, 0.5));
+}
+
+@keyframes float-up {
+    0% {
+        transform: translateY(100vh) rotate(0deg) scale(1);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.7;
+    }
+    90% {
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateY(-10vh) rotate(720deg) scale(0.5);
+        opacity: 0;
+    }
+}
+
+/* Page Layout */
+.page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.page.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.9);
+}
+
+.content {
+    text-align: center;
+    padding: 2rem;
+    max-width: 600px;
+    z-index: 2;
+}
+
+/* Question Page */
+.sparkle-container {
+    position: relative;
+    display: inline-block;
+}
+
+.question-text {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(2.5rem, 8vw, 4.5rem);
+    color: var(--red);
+    text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.1),
+        0 0 30px rgba(255, 107, 157, 0.3);
+    line-height: 1.4;
+    margin-bottom: 3rem;
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.name {
+    color: var(--pink-dark);
+    font-weight: 700;
+}
+
+@keyframes pulse-glow {
+    0%, 100% {
+        text-shadow: 
+            2px 2px 4px rgba(0, 0, 0, 0.1),
+            0 0 30px rgba(255, 107, 157, 0.3);
+    }
+    50% {
+        text-shadow: 
+            2px 2px 4px rgba(0, 0, 0, 0.1),
+            0 0 50px rgba(255, 107, 157, 0.6),
+            0 0 80px rgba(255, 71, 87, 0.3);
+    }
+}
+
+/* Buttons */
+.button-container {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    min-height: 100px;
+    align-items: center;
+    position: relative;
+}
+
+.btn {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding: 1rem 3rem;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-yes {
+    background: linear-gradient(135deg, var(--pink) 0%, var(--red) 100%);
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-yes::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s;
+}
+
+.btn-yes:hover {
+    transform: scale(2);
+    box-shadow: 
+        0 8px 30px rgba(255, 71, 87, 0.4),
+        0 0 40px rgba(255, 107, 157, 0.5);
+}
+
+.btn-yes:hover::before {
+    left: 100%;
+}
+
+.btn-no {
+    background: linear-gradient(135deg, #ddd 0%, #bbb 100%);
+    color: #666;
+    position: absolute;
+    transition: all 0.15s ease-out;
+}
+
+.btn-no:hover {
+    background: linear-gradient(135deg, #ccc 0%, #aaa 100%);
+}
+
+/* Celebration Page */
+.page-celebration {
+    background: linear-gradient(135deg, #fff0f3 0%, #ffe6eb 50%, #ffd6e0 100%);
+}
+
+.celebration-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(3rem, 12vw, 6rem);
+    color: var(--red);
+    animation: bounce-in 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    text-shadow: 
+        3px 3px 6px rgba(0, 0, 0, 0.1),
+        0 0 50px rgba(255, 71, 87, 0.4);
+}
+
+@keyframes bounce-in {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.celebration-subtitle {
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    color: var(--pink-dark);
+    margin: 1.5rem 0;
+    animation: fade-in 0.8s ease 0.3s both;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.gif-container {
+    margin: 2rem 0;
+    animation: fade-in 0.8s ease 0.6s both;
+}
+
+.celebration-gif {
+    max-width: 300px;
+    width: 80%;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+.love-message {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    color: var(--red);
+    margin-top: 1.5rem;
+    animation: fade-in 0.8s ease 0.9s both, heartbeat 1.5s ease-in-out infinite 1.5s;
+}
+
+@keyframes heartbeat {
+    0%, 100% {
+        transform: scale(1);
+    }
+    10%, 30% {
+        transform: scale(1.1);
+    }
+    20% {
+        transform: scale(1.05);
+    }
+}
+
+/* Confetti Effect */
+.confetti {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.confetti-piece {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    animation: confetti-fall linear forwards;
+}
+
+@keyframes confetti-fall {
+    0% {
+        transform: translateY(-10px) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* Sparkle Effect */
+.sparkle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: white;
+    border-radius: 50%;
+    animation: sparkle 1s ease-in-out infinite;
+    box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.8);
+}
+
+@keyframes sparkle {
+    0%, 100% {
+        opacity: 0;
+        transform: scale(0);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+    .button-container {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .btn {
+        padding: 0.8rem 2.5rem;
+        font-size: 1.3rem;
+    }
+    
+    .btn-no {
+        position: relative;
+    }
+    
+    .content {
+        padding: 1rem;
+    }
+}
+
+/* Prevent text selection */
+.question-text, .celebration-title, .celebration-subtitle, .love-message {
+    user-select: none;
+    -webkit-user-select: none;
+}
