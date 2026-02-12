@@ -40,14 +40,25 @@ document.addEventListener('DOMContentLoaded', () => {
     // No button evasion
     function setupNoButtonEvasion() {
         let isEvading = false;
+        let placeholder = null;
         
         noBtn.addEventListener('mouseenter', (e) => {
             if (isEvading) return;
             isEvading = true;
             
-            // On first hover, switch to fixed positioning
+            // On first hover, create placeholder and switch to fixed positioning
             if (noBtn.style.position !== 'fixed') {
                 const rect = noBtn.getBoundingClientRect();
+                
+                // Create invisible placeholder to maintain layout
+                placeholder = document.createElement('div');
+                placeholder.style.width = rect.width + 'px';
+                placeholder.style.height = rect.height + 'px';
+                placeholder.style.visibility = 'hidden';
+                placeholder.style.display = 'inline-block';
+                noBtn.parentNode.insertBefore(placeholder, noBtn);
+                
+                // Now switch to fixed
                 noBtn.style.position = 'fixed';
                 noBtn.style.left = rect.left + 'px';
                 noBtn.style.top = rect.top + 'px';
